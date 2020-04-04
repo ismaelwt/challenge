@@ -45,7 +45,7 @@ jobs:
       - run: |
           psql \
           -d $TEST_DATABASE_URL \
-          -c "INSERT INTO person VALUES ('123456'), ('Elon'), ('Musk'), (35);"
+          -c "INSERT INTO person VALUES ('123456', 'Elon', 'Musk', 35);"
 
       - run: |
           psql \
