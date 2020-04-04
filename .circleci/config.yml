@@ -51,7 +51,7 @@ jobs:
           -c "SELECT * from person"
 
       - run: mvn clean install
-        -
+
       - store_artifacts:
           path: ~/project/artifacts
 
