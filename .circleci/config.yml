@@ -1,9 +1,7 @@
 version: 2
 jobs:
   build:
-
-    # Primary container image where all commands run
-
+    working_directory: ~/project
     docker:
       - image: circleci/openjdk:8-jdk
         environment:
@@ -51,13 +49,18 @@ jobs:
           psql \
           -d $TEST_DATABASE_URL \
           -c "SELECT * from person"
-          
+
+      - run: mvn clean install
+        -
+      - store_artifacts:
+          path: ~/project/artifacts
+
 workflows:
   version: 2
   build-deploy:
     jobs:
       - build
-      - deploy-prod:
-          filters:
-            branches:
-              only: master
+      #- deploy-prod:
+      #    filters:
+      #      branches:
+      #        only: master
