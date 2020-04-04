@@ -27,7 +27,7 @@ jobs:
 
       - run: |
           psql \
-          createdb mydb \
+          -c "CREATE DATABASE mydb" \
           -c "CREATE TABLE person
 
               (
