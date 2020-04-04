@@ -27,7 +27,7 @@ jobs:
 
       - run: |
           psql \
-          createdb -h localhost -p 5432 -U postgres mydb \
+          createdb mydb \
           -c "CREATE TABLE person
 
               (
