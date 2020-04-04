@@ -1,13 +1,62 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
-version: 2.1
-# Use a package of configuration called an orb.
-orbs:
-  # Declare a dependency on the welcome-orb
-  welcome: circleci/welcome-orb@0.4.1
-# Orchestrate or schedule a set of jobs
+version: 2
+jobs:
+  build:
+    working_directory: ~/project
+    docker:
+      - image: circleci/openjdk:8-jdk
+      - image: postgres:9.6.2-alpine
+          environment:
+            POSTGRES_USER: postgres
+            POSTGRES_DB: mydb
+
+      steps:
+        - checkout
+        - run: sudo apt-get update
+        - run: sudo apt-get install postgresql-client-9.6
+        - run: whoami
+
+        - restore_cache:
+            key: circleci-challenge-{{ checksum "pom.xml" }}
+
+        - run: mvn dependency:go-offline
+
+        - save_cache:
+            paths:
+              - ~/.m2
+            key: circleci-challenge-{{ checksum "pom.xml" }}
+
+        - run:
+            name: Wait for db
+            command: dockerize -wait tcp://localhost:5432 -timeout 120s
+
+        - run: mysql -h 127.0.0.1 -u root -proot -e "show databases"
+        - run: mysql -h 127.0.0.1 -u root -proot -e "SELECT User, Host FROM mysql.user;"
+        - run: git clone git@github.com:sizebay/Severino.git utils
+        - run:
+            name: Create DB
+            command: sh utils/sizebay-circleci/circle.db.setup utils/sizebay-db/${TEST_DATABASE}.sql
+
+        - run: mysql -h 127.0.0.1 -u root -proot -e "show databases"
+        - run: mysql -h 127.0.0.1 -u root -proot -e "SELECT User, Host FROM mysql.user;"
+        - run: mvn -s utils/sizebay-circleci/circle.maven-settings.xml -Dconfig.skip.tests=true clean package
+        - run: mvn -s utils/sizebay-circleci/circle.maven-settings.xml clean test
+
+  deploy-prod:
+    machine: true
+    working_directory: ~/project
+    steps:
+      - checkout
+      - run: git clone git@github.com:sizebay/Severino.git utils
+      - run:
+          name: Deploy app in aws usaing maven
+          command:  mvn -s utils/sizebay-circleci/circle.maven-settings.xml -Dconfig.skip.tests=true clean deploy -Pdeploy
+
 workflows:
-  # Name the workflow "welcome"
-  welcome:
-    # Run the welcome/run job in its own container
+  version: 2
+  build-deploy:
     jobs:
-      - welcome/run
+      - build
+      - deploy-prod:
+          filters:
+            branches:
+              only: master
