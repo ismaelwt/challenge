@@ -4,8 +4,6 @@ jobs:
     working_directory: ~/project
     docker:
       - image: circleci/openjdk:8-jdk
-        environment:
-          TEST_DATABASE_URL: postgresql://localhost:5432/mydb
 
       # Service container image
 
