@@ -25,6 +25,7 @@
             </activation>
             <properties>
                 <env>dev</env>
+                <flag>dev</flag>
             </properties>
         </profile>
 
@@ -32,6 +33,7 @@
             <id>prod</id>
             <properties>
                 <env>prod</env>
+                <flag>prod</flag>
             </properties>
         </profile>
 

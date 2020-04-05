@@ -1,6 +1,7 @@
 package com.project;
 
 import com.project.api.ApplicationInit;
+import com.project.migrations.Migrations;
 import com.project.properties.PropertiesReader;
 import io.undertow.Undertow;
 import io.undertow.server.handlers.resource.ClassPathResourceManager;
@@ -51,6 +52,11 @@ public class Server {
         server.start(builder);
 
         new PropertiesReader();
+
+        if(Boolean.valueOf(PropertiesReader.properties.getProperty("db.migration"))){
+            Migrations.run();
+        }
+
     }
 
     public static void shutdownServer (){
