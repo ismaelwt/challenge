@@ -12,18 +12,20 @@ import io.undertow.servlet.api.DeploymentInfo;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 
-import java.io.File;
-import java.nio.file.Paths;
-
 import static io.undertow.Handlers.resource;
 
 public class Server {
+
+    private static Integer PORT_NUMBER = null;
 
     public static UndertowJaxrsServer server = null;
 
     public static void main(String[] args) {
 
         new PropertiesReader();
+
+        handlerPort(args);
+
         server = new UndertowJaxrsServer();
 
         ResteasyDeployment deployment = new ResteasyDeployment();
@@ -43,24 +45,13 @@ public class Server {
                 resource(new ClassPathResourceManager(Server.class.getClassLoader()))
                         .addWelcomeFiles("index.html"));
 
-        Integer portNumber = null;
-
-        if(args != null && args.length > 0){
-
-            portNumber = Integer.getInteger(args[0]);
-
-        }else {
-
-            portNumber = Integer.valueOf(PropertiesReader.properties.getProperty("server.port"));
-
-        }
 
         Undertow.Builder builder = Undertow.builder()
-                .addHttpListener(portNumber, PropertiesReader.properties.getProperty("server.host"));
+                .addHttpListener(PORT_NUMBER, PropertiesReader.properties.getProperty("server.host"));
 
         server.start(builder);
 
-        System.out.println("Server Listen PORT > "+ portNumber);
+        System.out.println("Server Listen PORT > "+ PORT_NUMBER);
 
         if (Boolean.valueOf(PropertiesReader.properties.getProperty("db.migration"))) {
             Migrations.run();
@@ -73,6 +64,15 @@ public class Server {
         server.stop();
     }
 
+
+    public static void handlerPort (String[] args) {
+
+        if(args != null && args.length >= 1) {
+           PORT_NUMBER = Integer.valueOf(args[0]);
+        }else {
+            PORT_NUMBER =Integer.valueOf(PropertiesReader.properties.getProperty("server.port"));
+        }
+    }
 }
 
 
