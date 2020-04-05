@@ -1,6 +1,7 @@
 package com.project.service;
 
 import com.project.Server;
+import com.project.properties.PropertiesReader;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -13,22 +14,21 @@ public class HikariCPDataSource {
 
     private static HikariConfig config = new HikariConfig();
     private static HikariDataSource ds;
-    private static Properties properties = new Properties();
 
     public void createConnection() {
 
 
-        config.setDriverClassName(properties.getProperty("db.driverClassName"));
-        config.setJdbcUrl(properties.getProperty("db.url"));
-        config.setUsername(properties.getProperty("db.username"));
-        config.setPassword(properties.getProperty("db.password"));
+        config.setDriverClassName(PropertiesReader.properties.getProperty("db.driverClassName"));
+        config.setJdbcUrl(PropertiesReader.properties.getProperty("db.url"));
+        config.setUsername(PropertiesReader.properties.getProperty("db.username"));
+        config.setPassword(PropertiesReader.properties.getProperty("db.password"));
 
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 
         ds = new HikariDataSource(config);
-        System.out.println("Configuration success");
+        System.out.println("Configuration Database success");
 
     }
 
@@ -36,30 +36,8 @@ public class HikariCPDataSource {
         return ds.getConnection();
     }
 
-    public static void closeConnection() {
-
-
-    }
-
     public HikariCPDataSource() {
-        getProperties();
-
         if (ds == null)
             createConnection();
-    }
-
-
-    private void getProperties() {
-
-        try {
-
-            InputStream stream = Server.class.getClassLoader().getResourceAsStream("hikari.properties");
-            properties.load(stream);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

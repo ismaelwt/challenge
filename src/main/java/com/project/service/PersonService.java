@@ -41,10 +41,7 @@ public class PersonService {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            HikariCPDataSource.closeConnection();
         }
-
         return personList;
     }
 
@@ -60,8 +57,6 @@ public class PersonService {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            HikariCPDataSource.closeConnection();
         }
 
         return p;
@@ -81,8 +76,6 @@ public class PersonService {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            HikariCPDataSource.closeConnection();
         }
 
         return rowsAffected;
@@ -101,8 +94,6 @@ public class PersonService {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            HikariCPDataSource.closeConnection();
         }
 
         return rowsAffected;

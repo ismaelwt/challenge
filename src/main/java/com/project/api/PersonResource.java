@@ -22,7 +22,7 @@ public class PersonResource {
     public Response findAll() {
         List<Person> persons = personService.findAll();
 
-        if (persons.isEmpty()) {
+        if (persons != null && persons.isEmpty()) {
             String message = "não há pessoas cadastradas";
             return Response.ok(new Gson().toJson(message)).build();
         }

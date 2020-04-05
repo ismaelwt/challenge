@@ -38,20 +38,20 @@
     </profiles>
 
     <build>
-        <finalName>challenge</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>*.properties</include>
-                </includes>
-            </resource>
-        </resources>
+
 
         <filters>
             <filter>src/main/resources/env/${env}.properties</filter>
         </filters>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <finalName>challenge</finalName>
 
         <plugins>
             <plugin>
