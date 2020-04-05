@@ -18,10 +18,10 @@ public class HikariCPDataSource {
     public void createConnection() {
 
 
-        config.setDriverClassName(properties.getProperty("driverClassName"));
-        config.setJdbcUrl(properties.getProperty("jdbcUrl"));
-        config.setUsername(properties.getProperty("username"));
-        config.setPassword(properties.getProperty("password"));
+        config.setDriverClassName(properties.getProperty("db.driverClassName"));
+        config.setJdbcUrl(properties.getProperty("db.url"));
+        config.setUsername(properties.getProperty("db.username"));
+        config.setPassword(properties.getProperty("db.password"));
 
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
