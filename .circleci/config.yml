@@ -51,7 +51,7 @@ jobs:
           -d $TEST_DATABASE_URL \
           -c "SELECT * from person"
 
-      - run: mvn clean install -Pdev
+      - run: mvn package -Pdev
 
       - store_artifacts:
           path: ~/project/artifacts
