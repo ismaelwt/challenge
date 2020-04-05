@@ -24,7 +24,7 @@ public class PersonResource {
 
         if (persons != null && persons.isEmpty()) {
             String message = "não há pessoas cadastradas";
-            return Response.ok(new Gson().toJson(message)).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(new Gson().toJson(message)).build();
         }
 
         return Response.ok(new Gson().toJson(persons)).build();
