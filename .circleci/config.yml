@@ -53,6 +53,9 @@ jobs:
 
       - run: mvn package -Pdev
 
+      - store_test_results:
+          path: ~/project/test
+
       - run: mvn clean install -Pprod -DskipTests
 
       - store_artifacts:
@@ -67,7 +70,7 @@ jobs:
       - run:
           name: Deploy Master to Heroku
           command: |
-            git push https://git.heroku.com/aqueous-reaches-81057.git master
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 
 workflows:
   version: 2
