@@ -2,6 +2,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.project.Server;
 import com.project.model.Person;
+import com.project.properties.PropertiesReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -20,6 +21,9 @@ import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ResourcesTest {
+
+    private static final String URL_PERSON_API = "http://localhost:" + PropertiesReader.properties.getProperty("server.port") + "/api/person";
+
 
     @Before
     public void startServer() {
@@ -173,7 +177,7 @@ public class ResourcesTest {
 
 
     public static HttpURLConnection getPersonList() throws MalformedURLException, IOException {
-        URL url = new URL(String.format("http://localhost:8080/api/person", 8080));
+        URL url = new URL(URL_PERSON_API);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
 
@@ -181,7 +185,7 @@ public class ResourcesTest {
     }
 
     public static String deletePerson(String id) throws MalformedURLException, IOException {
-        URL url = new URL(String.format("http://localhost:8080/api/person/" + id, 8080));
+        URL url = new URL(URL_PERSON_API + "/" + id);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("DELETE");
 
@@ -195,7 +199,7 @@ public class ResourcesTest {
     }
 
     public static String create(String json) throws MalformedURLException, IOException {
-        URL url = new URL(String.format("http://localhost:8080/api/person", 8080));
+        URL url = new URL(URL_PERSON_API);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         con.setDoOutput(true);
@@ -217,7 +221,7 @@ public class ResourcesTest {
 
     public static String update(String identifier, String personJson) throws MalformedURLException, IOException {
 
-        URL url = new URL(String.format("http://localhost:8080/api/person/" + identifier, 8080));
+        URL url = new URL(URL_PERSON_API + "/" + identifier);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         con.setDoOutput(true);
