@@ -19,7 +19,7 @@ public class PropertiesReader {
         try {
 
             properties = new Properties();
-            InputStream stream = Server.class.getClassLoader().getResourceAsStream("hikari.properties");
+            InputStream stream = Server.class.getClassLoader().getResourceAsStream("application.properties");
             properties.load(stream);
 
             PrintProps();

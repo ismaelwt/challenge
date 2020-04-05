@@ -15,7 +15,7 @@ public class Migrations {
     public static void run() {
 
         try {
-
+            System.out.println("Running migrations ... ");
             Connection conn = new HikariCPDataSource().getConnection();
             PreparedStatement pst = conn.prepareStatement(SQL_CREATE_TABLE);
             pst.execute();
@@ -23,6 +23,7 @@ public class Migrations {
             e.printStackTrace();
         }
 
+        System.out.println("Migrations Complete");
     }
 
 }

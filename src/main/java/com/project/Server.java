@@ -19,11 +19,12 @@ import static io.undertow.Handlers.resource;
 
 public class Server {
 
-   public static UndertowJaxrsServer server = null;
+    public static UndertowJaxrsServer server = null;
 
     public static void main(String[] args) {
 
-         server = new UndertowJaxrsServer();
+        new PropertiesReader();
+        server = new UndertowJaxrsServer();
 
         ResteasyDeployment deployment = new ResteasyDeployment();
         deployment.setApplicationClass(ApplicationInit.class.getName());
@@ -38,28 +39,24 @@ public class Server {
 
         server.deploy(deploymentInfo);
 
-        ResourceHandler resourceHandler = new ResourceHandler(new PathResourceManager(
-                Paths.get(new File(".").getAbsolutePath()), 100))
-                .setDirectoryListingEnabled(true)
-                .addWelcomeFiles("index.html");
-        server.addResourcePrefixPath("/", resourceHandler);
-
-        //server.addResourcePrefixPath("/", resource(new ClassPathResourceManager(Server.class.getClassLoader())).addWelcomeFiles("index.html"));
+        server.addResourcePrefixPath("/",
+                resource(new ClassPathResourceManager(Server.class.getClassLoader()))
+                        .addWelcomeFiles("index.html"));
 
         Undertow.Builder builder = Undertow.builder()
-                .addHttpListener(8080, "0.0.0.0");
+                .addHttpListener(Integer.valueOf(PropertiesReader.properties.getProperty("server.port")), PropertiesReader.properties.getProperty("server.host"));
 
         server.start(builder);
 
-        new PropertiesReader();
+        System.out.println("Server Listen PORT > "+ PropertiesReader.properties.getProperty("server.port"));
 
-        if(Boolean.valueOf(PropertiesReader.properties.getProperty("db.migration"))){
+        if (Boolean.valueOf(PropertiesReader.properties.getProperty("db.migration"))) {
             Migrations.run();
         }
 
     }
 
-    public static void shutdownServer (){
+    public static void shutdownServer() {
 
         server.stop();
     }

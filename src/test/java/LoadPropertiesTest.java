@@ -10,7 +10,7 @@ public class LoadPropertiesTest {
     public void testLoad() {
 
 
-        String resourceName = "hikari.properties";
+        String resourceName = "application.properties";
 
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(resourceName).getFile());
@@ -18,7 +18,23 @@ public class LoadPropertiesTest {
 
         System.out.println(absolutePath);
 
-        assertTrue(absolutePath.endsWith("hikari.properties"));
+        assertTrue(absolutePath.endsWith("application.properties"));
+
+    }
+
+    @Test
+    public void testLoadIndex() {
+
+
+        String resourceName = "index.html";
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(resourceName).getFile());
+        String absolutePath = file.getAbsolutePath();
+
+        System.out.println(absolutePath);
+
+        assertTrue(absolutePath.endsWith("index.html"));
 
     }
 
