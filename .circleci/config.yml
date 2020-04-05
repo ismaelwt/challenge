@@ -53,7 +53,7 @@ jobs:
 
       - run: mvn package -Pdev
 
-      - run: mvn clean deploy -Pprod -DskipTests
+      - run: mvn clean install -Pprod -DskipTests
 
       - store_artifacts:
           path: ~/project/target
@@ -61,7 +61,7 @@ jobs:
   deploy:
     docker:
       - image: circleci/openjdk:8-jdk
-        
+
     steps:
       - checkout
       - run:
