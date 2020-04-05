@@ -1,1 +1,1 @@
-web: java -jar -server target/challenge.jar -Dhttp.port=$PORT -Dhttps.port=$PORT
+web: java $JAVA_OPTS -jar target/challenge.jar --port $PORT target/*.jar
