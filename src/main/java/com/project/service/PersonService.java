@@ -51,7 +51,7 @@ public class PersonService {
 
         try {
 
-            Connection conn = HikariCPDataSource.getConnection();
+            Connection conn = db.getConnection();
             PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
             pst.execute();
 
@@ -69,7 +69,7 @@ public class PersonService {
         Integer rowsAffected = 0;
         try {
 
-            Connection conn = HikariCPDataSource.getConnection();
+            Connection conn = db.getConnection();
             PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
             rowsAffected = pst.executeUpdate();
 
@@ -87,7 +87,7 @@ public class PersonService {
         Integer rowsAffected = 0;
         try {
 
-            Connection conn = HikariCPDataSource.getConnection();
+            Connection conn = db.getConnection();
             PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
             rowsAffected = pst.executeUpdate();
 
