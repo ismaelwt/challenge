@@ -10,4 +10,6 @@ COPY ${JAR_FILE} app.jar
 
 ADD ${JAR_LIB_FILE} lib/
 
+EXPOSE 80
+
 ENTRYPOINT ["java","-jar","-server","app.jar"]
