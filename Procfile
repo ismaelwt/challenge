@@ -1,1 +1,1 @@
-web: java -jar target/challenge.jar -Dserver.port=$PORT
+web: java -jar target/challenge.jar $PORT
