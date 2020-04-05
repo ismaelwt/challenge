@@ -43,12 +43,24 @@ public class Server {
                 resource(new ClassPathResourceManager(Server.class.getClassLoader()))
                         .addWelcomeFiles("index.html"));
 
+        Integer portNumber = null;
+
+        if(args != null && args.length > 0){
+
+            portNumber = Integer.getInteger(args[0]);
+
+        }else {
+
+            portNumber = Integer.valueOf(PropertiesReader.properties.getProperty("server.port"));
+
+        }
+
         Undertow.Builder builder = Undertow.builder()
-                .addHttpListener(Integer.valueOf(PropertiesReader.properties.getProperty("server.port")), PropertiesReader.properties.getProperty("server.host"));
+                .addHttpListener(portNumber, PropertiesReader.properties.getProperty("server.host"));
 
         server.start(builder);
 
-        System.out.println("Server Listen PORT > "+ PropertiesReader.properties.getProperty("server.port"));
+        System.out.println("Server Listen PORT > "+ portNumber);
 
         if (Boolean.valueOf(PropertiesReader.properties.getProperty("db.migration"))) {
             Migrations.run();
