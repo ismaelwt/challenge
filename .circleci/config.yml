@@ -54,7 +54,7 @@ jobs:
       - run: mvn package -Pdev
 
       - store_artifacts:
-          path: ~/project/artifacts
+          path: ~/project/target
 
 workflows:
   version: 2
