@@ -68,7 +68,7 @@ public class Server {
     public static void handlerPort (String[] args) {
 
         if(args != null && args.length >= 1) {
-           PORT_NUMBER = Integer.valueOf(args[0]);
+           PORT_NUMBER = Integer.valueOf(args[args.length - 1]);
            PropertiesReader.properties.setProperty("server.port", PORT_NUMBER.toString());
         }else {
             PORT_NUMBER = Integer.valueOf(PropertiesReader.properties.getProperty("server.port"));

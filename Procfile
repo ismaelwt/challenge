@@ -1,1 +1,2 @@
-web: java -jar target/challenge.jar $PORT
+web: java -javaagent:/challenge/newrelic/newrelic.jar -jar target/challenge.jar $PORT
+
