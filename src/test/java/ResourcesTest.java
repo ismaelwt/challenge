@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ResourcesTest {
 
-    private static final String URL_PERSON_API = "http://localhost:" + PropertiesReader.properties.getProperty("server.port") + "/api/person";
+    private static final String URL_PERSON_API = "http://localhost:8080/api/person";
 
 
     @Before
