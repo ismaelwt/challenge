@@ -26,16 +26,16 @@ public class HikariCPDataSource {
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        config.addDataSourceProperty("maxPoolSize", 20);
 
-        config.setLeakDetectionThreshold(30000);
-        config.setConnectionTimeout(10000);
-        config.setIdleTimeout(60000);
-        config.setMaxLifetime(60000);
+        config.setMaximumPoolSize(20);
+        config.setConnectionTimeout(300000);
+        config.setIdleTimeout(120000);
+        config.setMinimumIdle(2);
+        config.setLeakDetectionThreshold(300000);
+
+        config.setAutoCommit(true);
 
         ds = new HikariDataSource(config);
-
-
 
         System.out.println("Configuration Database success");
 
