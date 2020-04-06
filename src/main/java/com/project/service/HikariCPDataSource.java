@@ -27,11 +27,12 @@ public class HikariCPDataSource {
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 
-        config.setMaximumPoolSize(20);
-        config.setConnectionTimeout(300000);
-        config.setIdleTimeout(120000);
-        config.setMinimumIdle(2);
-        config.setLeakDetectionThreshold(300000);
+        config.setMaximumPoolSize(10);
+        config.setConnectionTimeout(60000);
+        config.setIdleTimeout(60000);
+        config.setMinimumIdle(10);
+        config.setLeakDetectionThreshold(30000);
+        config.setMaxLifetime(60000);
 
         config.setAutoCommit(true);
 
