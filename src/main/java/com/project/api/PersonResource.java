@@ -77,14 +77,18 @@ public class PersonResource {
     }
 
     @DELETE
-    @Path("/{identifier}")
-    public Response deletePerson(@PathParam("identifier") String id) {
+    public Response deletePerson(@QueryParam("id") String id) {
 
         Integer rowsAffected = 0;
 
         if (id != null && !id.isEmpty()) {
 
             rowsAffected = personService.deletePerson(id);
+
+        }else {
+
+            rowsAffected = personService.deleteAllFromPerson();
+
         }
 
         return Response.status(200).entity(new Gson().toJson(rowsAffected)).build();

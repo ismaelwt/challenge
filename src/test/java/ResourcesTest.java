@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.project.Server.shutdownServer;
 import static org.junit.Assert.assertTrue;
@@ -67,22 +68,30 @@ public class ResourcesTest {
         Exception ee = null;
         String message = null;
 
-        Person p = new Person();
 
-        p.setName("Freddie");
-        p.setLastName("Mercury");
-        p.setAge(45);
-
-        String json = new Gson().toJson(p);
 
         try {
-            message = create(json);
+
+            for(int i = 0; i <= 3; i++){
+
+                Person p = new Person();
+
+                p.setName("Freddie "+ UUID.randomUUID().toString());
+                p.setLastName("Mercury");
+                p.setAge(45);
+
+                String json = new Gson().toJson(p);
+
+
+                message = create(json);
+
+            }
 
         } catch (IOException e) {
             ee = e;
         }
 
-        assertTrue(message != null);
+        assertTrue(message != null && ee == null);
 
     }
 
@@ -176,6 +185,24 @@ public class ResourcesTest {
     }
 
 
+    @Test
+    public void stage6DeleteAllFromPerson() {
+
+        Exception ee = null;
+        String message = null;
+
+        try {
+
+            message = deletePerson();
+
+        } catch (Exception e) {
+            ee = e;
+        }
+
+        assertTrue(message != null && ee == null);
+    }
+
+
     public static HttpURLConnection getPersonList() throws MalformedURLException, IOException {
         URL url = new URL(URL_PERSON_API);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -184,8 +211,20 @@ public class ResourcesTest {
         return con;
     }
 
+    public static String deletePerson() throws MalformedURLException, IOException {
+        return deletePerson(null);
+    }
+
     public static String deletePerson(String id) throws MalformedURLException, IOException {
-        URL url = new URL(URL_PERSON_API + "/" + id);
+
+        URL url = null;
+
+        if (id == null) {
+            url = new URL(URL_PERSON_API);
+        } else {
+            url = new URL(URL_PERSON_API + "?id=" + id);
+        }
+
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("DELETE");
 

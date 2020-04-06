@@ -88,6 +88,20 @@ public class PersonService {
         return null;
     }
 
+    public Integer deleteAllFromPerson() {
+
+        try (Connection conn = HikariCPDataSource.getConnection(); Statement stmt = conn.createStatement()) {
+
+            String SQL_QUERY = "delete from person";
+            return stmt.executeUpdate(SQL_QUERY);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public List<String> verify(Person p) {
 
         List<String> m = new ArrayList<>();
