@@ -89,10 +89,6 @@
                         <configuration>
                             <includeGroupIds>com.newrelic.agent.java</includeGroupIds>
                             <includeArtifactIds>newrelic-java</includeArtifactIds>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
                         </configuration>
                     </execution>
 
