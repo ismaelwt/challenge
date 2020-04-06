@@ -1,9 +1,7 @@
 package com.project.service;
 
-import com.google.gson.Gson;
 import com.project.model.Person;
 
-import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,17 +12,15 @@ import java.util.UUID;
 
 public class PersonService {
 
-    @Inject
-    HikariCPDataSource db;
-
     public List<Person> findAll() {
 
 
-        String SQL_QUERY = "select * from person";
-        List<Person> personList = null;
-
         try {
-            Connection conn = db.getConnection();
+
+            String SQL_QUERY = "select * from person";
+            List<Person> personList = null;
+
+            Connection conn = HikariCPDataSource.getConnection();
             PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
             ResultSet rs = pst.executeQuery();
             personList = new ArrayList<>();
@@ -39,66 +35,71 @@ public class PersonService {
             }
 
 
+            return personList;
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return personList;
+
+        return null;
     }
 
     public Person createPerson(Person p) {
-
-        String SQL_QUERY = "insert into person values('" + p.getId() + "','" + p.getName() + "','" + p.getLastName() + "'," + p.getAge() + ");";
-
         try {
 
-            Connection conn = db.getConnection();
+            String SQL_QUERY = "insert into person values('" + p.getId() + "','" + p.getName() + "','" + p.getLastName() + "'," + p.getAge() + ");";
+            Connection conn = HikariCPDataSource.getConnection();
             PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
             pst.execute();
+
+            return p;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return p;
+        return null;
 
     }
 
     public Integer updatePerson(String identifier, Person p) {
 
-        String SQL_QUERY = "update person set name='" + p.getName() + "', last_name = '" + p.getLastName() + "', age = " + p.getAge() + " where id = '" + identifier + "'";
-        Integer rowsAffected = 0;
         try {
 
-            Connection conn = db.getConnection();
+            String SQL_QUERY = "update person set name='" + p.getName() + "', last_name = '" + p.getLastName() + "', age = " + p.getAge() + " where id = '" + identifier + "'";
+            Integer rowsAffected = 0;
+
+            Connection conn = HikariCPDataSource.getConnection();
             PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
-            rowsAffected = pst.executeUpdate();
+            return pst.executeUpdate();
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return rowsAffected;
+        return null;
+
     }
 
     public Integer deletePerson(String identifier) {
-        String SQL_QUERY = "delete from person where id='"+ identifier + "'";
 
-        Integer rowsAffected = 0;
         try {
 
-            Connection conn = db.getConnection();
+            String SQL_QUERY = "delete from person where id='" + identifier + "'";
+
+            Integer rowsAffected = 0;
+
+            Connection conn = HikariCPDataSource.getConnection();
             PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
-            rowsAffected = pst.executeUpdate();
+            return pst.executeUpdate();
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return rowsAffected;
-
-
+        return null;
     }
 
     public List<String> verify(Person p) {

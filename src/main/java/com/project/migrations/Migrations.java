@@ -16,7 +16,7 @@ public class Migrations {
 
         try {
             System.out.println("Running migrations ... ");
-            Connection conn = new HikariCPDataSource().getConnection();
+            Connection conn = HikariCPDataSource.getConnection();
             PreparedStatement pst = conn.prepareStatement(SQL_CREATE_TABLE);
             pst.execute();
         } catch (SQLException e) {

@@ -15,7 +15,7 @@ public class HikariCPDataSource {
     private static HikariConfig config = new HikariConfig();
     private static HikariDataSource ds;
 
-    public void createConnection() {
+    static {
 
 
         config.setDriverClassName(PropertiesReader.properties.getProperty("db.driverClassName"));
@@ -27,14 +27,13 @@ public class HikariCPDataSource {
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 
-        config.setMaximumPoolSize(10);
-        config.setConnectionTimeout(60000);
+        config.setMaximumPoolSize(8);
+        config.setConnectionTimeout(30000);
         config.setIdleTimeout(60000);
-        config.setMinimumIdle(10);
-        config.setLeakDetectionThreshold(30000);
+        config.setMinimumIdle(1);
+        config.setLeakDetectionThreshold(60000);
         config.setMaxLifetime(60000);
-
-        config.setAutoCommit(true);
+        config.getConnectionInitSql();
 
         ds = new HikariDataSource(config);
 
@@ -42,12 +41,12 @@ public class HikariCPDataSource {
 
     }
 
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         return ds.getConnection();
     }
 
-    public HikariCPDataSource() {
-        if (ds == null)
-            createConnection();
+    private HikariCPDataSource() {
+
     }
+
 }
