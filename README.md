@@ -13,6 +13,8 @@ Development - mvn clean install -Pdev
 
 Production - mvn clean install -Pprod
 
+and Run
+
 java -jar target/challenge.jar
 
 ### Or Run With Docker
@@ -25,3 +27,12 @@ docker run -p 8080:8080 app_name
 
 
 ### circle.yml have configuration for deployment on heroku
+
+all git push in the master circleci run tests and deploy
+
+### New Relic APM on Maven
+
+run app with java-agent
+
+java -javaagent:target/dependency/newrelic/newrelic.jar -Dnewrelic.config.file=newrelic.yml -jar target/challenge.jar
+
