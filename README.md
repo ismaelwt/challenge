@@ -4,8 +4,9 @@
 ### Application Config
 
 src/main/resources/env
-    -prod.properties (production configs)
-    -dev.properties (development configs)
+
+prod.properties (production configs)
+dev.properties (development configs)
 
 ### Maven build
 
