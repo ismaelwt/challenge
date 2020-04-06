@@ -2,10 +2,7 @@ package com.project.service;
 
 import com.project.model.Person;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,14 +12,12 @@ public class PersonService {
     public List<Person> findAll() {
 
 
-        try {
+        try (Connection conn = HikariCPDataSource.getConnection(); Statement stmt = conn.createStatement()) {
+
 
             String SQL_QUERY = "select * from person";
             List<Person> personList = null;
-
-            Connection conn = HikariCPDataSource.getConnection();
-            PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
-            ResultSet rs = pst.executeQuery();
+            ResultSet rs = stmt.executeQuery(SQL_QUERY);
             personList = new ArrayList<>();
             Person p;
             while (rs.next()) {
@@ -37,7 +32,7 @@ public class PersonService {
 
             return personList;
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -45,16 +40,17 @@ public class PersonService {
     }
 
     public Person createPerson(Person p) {
-        try {
+
+        try (Connection conn = HikariCPDataSource.getConnection(); Statement stmt = conn.createStatement()) {
+
 
             String SQL_QUERY = "insert into person values('" + p.getId() + "','" + p.getName() + "','" + p.getLastName() + "'," + p.getAge() + ");";
-            Connection conn = HikariCPDataSource.getConnection();
-            PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
-            pst.execute();
+
+            stmt.executeUpdate(SQL_QUERY);
 
             return p;
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -64,15 +60,11 @@ public class PersonService {
 
     public Integer updatePerson(String identifier, Person p) {
 
-        try {
+        try (Connection conn = HikariCPDataSource.getConnection(); Statement stmt = conn.createStatement()) {
 
             String SQL_QUERY = "update person set name='" + p.getName() + "', last_name = '" + p.getLastName() + "', age = " + p.getAge() + " where id = '" + identifier + "'";
-            Integer rowsAffected = 0;
 
-            Connection conn = HikariCPDataSource.getConnection();
-            PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
-            return pst.executeUpdate();
-
+            return stmt.executeUpdate(SQL_QUERY);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,16 +76,10 @@ public class PersonService {
 
     public Integer deletePerson(String identifier) {
 
-        try {
+        try (Connection conn = HikariCPDataSource.getConnection(); Statement stmt = conn.createStatement()) {
 
             String SQL_QUERY = "delete from person where id='" + identifier + "'";
-
-            Integer rowsAffected = 0;
-
-            Connection conn = HikariCPDataSource.getConnection();
-            PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
-            return pst.executeUpdate();
-
+            return stmt.executeUpdate(SQL_QUERY);
 
         } catch (SQLException e) {
             e.printStackTrace();
