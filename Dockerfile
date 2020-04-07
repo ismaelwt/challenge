@@ -1,5 +1,3 @@
-dockerfile
-
 FROM openjdk:8-jre-alpine
 
 ENV NEW_RELIC_APP_NAME="My Application in Docker"
