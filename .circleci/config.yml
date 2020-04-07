@@ -68,10 +68,10 @@ jobs:
       - checkout
       - run:
           name: Deploy to Heroku
-          commands: |
-            - docker login --email=$HEROKU_LOGIN --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
-            - docker build --rm=false -t registry.heroku.com/$HEROKU_APP_NAME/web .
-            - docker push registry.heroku.com/$HEROKU_APP_NAME/web:latest
+          command: |
+            docker login --email=$HEROKU_LOGIN --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
+            docker build --rm=false -t registry.heroku.com/$HEROKU_APP_NAME/web .
+            docker push registry.heroku.com/$HEROKU_APP_NAME/web:latest
 
 workflows:
   version: 2
