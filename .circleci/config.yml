@@ -52,7 +52,6 @@ jobs:
           -c "SELECT * from person"
 
       - run: mvn package -Pdev
-
       - store_test_results:
           path: test-results
 
@@ -63,10 +62,8 @@ jobs:
 
   deploy:
     machine:
-      services:
-        - docker
 
-    deployment:
+    steps:
       - run:
           name: Deploy to Heroku
           commands:
