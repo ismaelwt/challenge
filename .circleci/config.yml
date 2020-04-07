@@ -58,7 +58,7 @@ jobs:
       - run: mvn clean install -Pprod -DskipTests
 
       - store_artifacts:
-          path: ~/project/target
+          path: target
 
   deploy:
     machine:
