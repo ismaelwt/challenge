@@ -61,16 +61,21 @@ jobs:
       - store_artifacts:
           path: ~/project/target
 
-  deploy:
-    docker:
-      - image: circleci/openjdk:8-jdk
+  machine:
+    services:
+      - docker
 
-    steps:
-      - checkout
-      - run:
-          name: Deploy Master to Heroku
-          command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+  dependencies:
+    cache_directories:
+      - ~/docker
+
+  deployment:
+    staging:
+      branch: master
+      commands:
+        - docker login --email=$HEROKU_LOGIN --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
+        - docker build --rm=false -t registry.heroku.com/$HEROKU_APP_NAME/web .
+        - docker push registry.heroku.com/$HEROKU_APP_NAME/web:latest
 
 workflows:
   version: 2
