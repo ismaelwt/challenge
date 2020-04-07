@@ -13,6 +13,6 @@ public class HealthCheck {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response check() {
-        return Response.ok("API is alive <br> @GET /api/person - List All <br/> @POST /api/person - Create <br/> @PUT /api/person/id - Update <br/> @DELETE /api/person/id- Delete").build();
+        return Response.ok("API is alive <br> @GET /api/person - List All <br/> @POST /api/person - Create <br/> @PUT /api/person/id - Update <br/> @DELETE By Id /api/person?id={id} - Delete <br/> @DELETE all /api/person - Delete").build();
     }
 }
