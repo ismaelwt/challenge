@@ -62,6 +62,7 @@ jobs:
 
   deploy:
     machine:
+      enabled: true
 
     steps:
       - run:
