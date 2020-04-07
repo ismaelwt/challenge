@@ -55,11 +55,6 @@ jobs:
       - store_test_results:
           path: test-results
 
-      - run: mvn clean install -Pprod -DskipTests
-
-      - store_artifacts:
-          path: target
-
   deploy:
     machine:
       services:
@@ -70,7 +65,7 @@ jobs:
       - run:
           name: Deploy to Heroku
           command: |
-            ls -ls
+            run: mvn clean install -Pprod -DskipTests
             curl https://cli-assets.heroku.com/install.sh | sh
             heroku container:login
             heroku container:push web -a $HEROKU_APP_NAME
