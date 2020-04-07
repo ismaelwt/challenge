@@ -62,7 +62,8 @@ jobs:
 
   deploy:
     machine:
-      enabled: true
+      services:
+        - docker
     working_directory: ~/project
     steps:
       - checkout
