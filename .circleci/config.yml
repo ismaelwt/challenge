@@ -65,7 +65,7 @@ jobs:
       - run:
           name: Deploy to Heroku
           command: |
-            run: mvn clean install -Pprod -DskipTests
+            mvn clean install -Pprod -DskipTests
             curl https://cli-assets.heroku.com/install.sh | sh
             heroku container:login
             heroku container:push web -a $HEROKU_APP_NAME
