@@ -63,8 +63,9 @@ jobs:
   deploy:
     machine:
       enabled: true
-
+    working_directory: ~/project
     steps:
+      - checkout
       - run:
           name: Deploy to Heroku
           commands:
